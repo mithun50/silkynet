@@ -5,8 +5,9 @@ Refactored for API usage
 
 import numpy as np
 import cv2
-from keras.models import load_model
-import keras.backend
+from tensorflow import keras
+from tensorflow.keras.models import load_model
+import tensorflow.keras.backend as K
 from PIL import Image
 from scipy import ndimage as ndi
 from skimage.feature import peak_local_max
@@ -38,11 +39,11 @@ class SilkyNetInference:
     def dice_coef(y_true, y_pred):
         """Dice coefficient metric"""
         smooth = 1e-4
-        y_true_f = keras.backend.flatten(y_true)
-        y_pred_f = keras.backend.flatten(y_pred)
-        intersection = keras.backend.sum(y_true_f * y_pred_f)
+        y_true_f = K.flatten(y_true)
+        y_pred_f = K.flatten(y_pred)
+        intersection = K.sum(y_true_f * y_pred_f)
         score = (2. * intersection + smooth) / (
-            keras.backend.sum(y_true_f) + keras.backend.sum(y_pred_f) + smooth
+            K.sum(y_true_f) + K.sum(y_pred_f) + smooth
         )
         return score
 
